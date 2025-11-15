@@ -1,22 +1,30 @@
 import { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../firebase";
 import { Link, useNavigate } from "react-router-dom";
 
-export default function Login() {
+export default function Signup() {
   const nav = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState(""); // новое поле
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = async (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      // создаём пользователя
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+
+      // сохраняем username в displayName
+      await updateProfile(userCredential.user, {
+        displayName: username,
+      });
+
       nav("/profile");
     } catch (err) {
       setError(err.message);
@@ -30,12 +38,27 @@ export default function Login() {
       <div className="w-full max-w-md bg-white shadow-lg rounded-2xl border border-gray-200 p-6">
         
         <div className="mb-6">
-          <h1 className="text-2xl font-bold">Login</h1>
-          <p className="text-gray-500 text-sm">Enter your email and password</p>
+          <h1 className="text-2xl font-bold">Sign Up</h1>
+          <p className="text-gray-500 text-sm">Create your account</p>
         </div>
 
-        <form className="space-y-4" onSubmit={handleLogin}>
+        <form className="space-y-4" onSubmit={handleSignup}>
           
+          <div className="flex flex-col">
+            <label htmlFor="username" className="text-sm font-medium mb-1">
+              Username
+            </label>
+            <input
+              id="username"
+              type="text"
+              placeholder="Your username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              className="border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+          </div>
+
           <div className="flex flex-col">
             <label htmlFor="email" className="text-sm font-medium mb-1">
               Email
@@ -64,24 +87,22 @@ export default function Login() {
             />
           </div>
 
-          {error && (
-            <p className="text-red-500 text-sm">{error}</p>
-          )}
+          {error && <p className="text-red-500 text-sm">{error}</p>}
 
           <button
             type="submit"
             disabled={loading}
             className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition disabled:opacity-70"
           >
-            {loading ? "Logging in..." : "Login"}
+            {loading ? "Creating..." : "Create account"}
           </button>
         </form>
 
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
-            No account?{" "}
-            <Link to="/signup" className="text-blue-600 hover:underline">
-              Sign up
+            Already have an account?{" "}
+            <Link to="/login" className="text-blue-600 hover:underline">
+              Login
             </Link>
           </p>
         </div>

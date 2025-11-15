@@ -7,6 +7,8 @@ import About from './pages/About'
 import Items from './pages/Items'
 import ItemDetails from './pages/ItemDetails'
 import Login from './pages/Login'
+import Signup from './pages/Signup'
+import Profile from './pages/Profile'
 import './App.css'
 
 function App() {
@@ -19,6 +21,8 @@ function App() {
           <Route path="books" element={<Items />} />
           <Route path="books/:id" element={<ItemDetails />} />
           <Route path="login" element={<Login />} />
+          <Route path="signup" element={<Signup />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
       </Routes>
     </BrowserRouter>
