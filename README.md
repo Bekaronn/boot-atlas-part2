@@ -87,14 +87,4 @@ export const auth = getAuth(app);
 npm run dev
 ```
 
----
-
-## 🖼️ Скриншоты
-
-<div style="display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap;">
-  <img src="screenshots/1.png" alt="App.jsx (Router setup)" width="32%">
-  <img src="screenshots/3.png" alt="Главная страница BookAtlas" width="32%">
-  <img src="screenshots/2.png" alt="Результаты поиска" width="32%">
-</div>
-
 
