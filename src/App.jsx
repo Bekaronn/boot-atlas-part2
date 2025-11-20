@@ -1,7 +1,6 @@
 
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import RootLayout from './pages/RootLayout'
 import Home from './pages/Home'
 import About from './pages/About'
 import Items from './pages/Items'
@@ -9,13 +8,17 @@ import ItemDetails from './pages/ItemDetails'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Profile from './pages/Profile'
+import NavBar from './components/NavBar'
 import './App.css'
+
+import { AuthProvider } from './context/AuthProvider.jsx'
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<RootLayout />}>
+      <AuthProvider>
+        <NavBar />
+        <Routes>
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="books" element={<Items />} />
@@ -23,8 +26,8 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="profile" element={<Profile />} />
-        </Route>
-      </Routes>
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   )
 }
